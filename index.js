@@ -46,7 +46,7 @@ Desk.canvas.client.ajax(reply_url,
 } else {
    res.send("authentication failed");
 };
-};
+}
 });
 
 var body = {body: reply_data}
