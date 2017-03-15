@@ -49,7 +49,7 @@ Desk.canvas.client.ajax(reply_url,
 }
 });
 
-var body = {body: reply_data}
+var body = {body: reply_data};
 
 Desk.canvas.client.ajax(url,
   {client : sr.client,
