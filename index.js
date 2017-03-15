@@ -59,7 +59,8 @@ Desk.canvas.client.ajax(url,
     if (201 === data.status) {
       alert("Success");
     }
-  };
+  }
+});
 });
 
 var port = process.env.PORT || 9000;
