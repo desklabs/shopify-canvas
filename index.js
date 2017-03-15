@@ -49,7 +49,13 @@ Desk.canvas.client.ajax(reply_url,
 }
 });
 
-var body = {body: reply_data};
+var body = {body: reply_data, subject: "test",
+  _links: {
+    topic: {
+      href: "/api/v2/topics/642669",
+      class: "topic"
+    }
+  }};
 
 Desk.canvas.client.ajax(url,
   {client : sr.client,
