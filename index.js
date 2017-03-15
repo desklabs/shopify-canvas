@@ -38,7 +38,7 @@ app.get('/push', function (req, res) {
 var url = sr.client.instanceurl +"/articles";
 var reply_url = sr.context.environment.case.url+"/replies";
 
-Desk.canvas.client.ajax.(reply_url, 
+Desk.canvas.client.ajax(reply_url, 
 {client:sr.client,
  success: function(data) {
  if (200 === data.status) {
