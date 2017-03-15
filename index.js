@@ -31,7 +31,7 @@ app.post('/', function (req, res) {
   } else {
    res.send("authentication failed");
   }; 
-})
+});
 
 app.get('/push', function (req, res) {
   var sr = Desk.canvas.client.signedrequest();
@@ -59,7 +59,7 @@ Desk.canvas.client.ajax(url,
     if (201 === data.status) {
       alert("Success");
     }
-  });
+  };
 });
 
 var port = process.env.PORT || 9000;
