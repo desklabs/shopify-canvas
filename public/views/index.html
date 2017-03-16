@@ -11,7 +11,6 @@ var oLink = document.getElementById('link');
 oLink.addEventListener('click', postArticle);
    
  function postArticle() {
-   alert("Success");
    var sr = Desk.canvas.client.signedrequest();
    var url = sr.client.instanceurl +"/articles";
    var reply_url = sr.context.environment.case.url+"/replies";
@@ -22,7 +21,7 @@ oLink.addEventListener('click', postArticle);
      if (200 === data.status) {
        var reply_data = data.body;
      } else {
-       res.send("get article failed");
+       alert("get reply failed");
      };
      }
  });
@@ -43,14 +42,14 @@ Desk.canvas.client.ajax(url,
     if (201 === data.status) {
       alert("Success");
     } else {
-     res.send("get article failed");
+     alert("get article failed");
   }
   }
 });
 }
    </script>
   <h3>Please select the product related to this case</h3>
-  <button onclick="postArticle()">Click Me</button>
+ <button id='link'>Click Me</button>
 
 </body>
 </html>
