@@ -23,7 +23,8 @@
                 method: 'GET',
                 success: function(rsp) {
                   console.log(rsp);
-                  reply_data = rsp.body
+                  console.log(rsp.payload.body);
+                  reply_data = rsp.payload.body
                 }
               });
               var body = {body: reply_data, subject: "test",
@@ -41,8 +42,10 @@
                   success : function(data) {
                   if (201 === data.status) {
                     alert("Success");
+                    console.log(data.payload.id)
                   } else {
                    alert("post article failed");
+                   console.log(data)
                 }
                 }
               })
