@@ -16,13 +16,14 @@
             var sr       = data.payload.response.split('.')[1]
               , ctx      = JSON.parse(Desk.canvas.decode(sr))
               , url      = ctx.context.environment.case.url + '/replies/draft'
+              , reply_data = ''
             $('button').click(function() {
               Desk.canvas.client.ajax(url, {
                 client: ctx.client,
                 method: 'GET',
                 success: function(rsp) {
                   console.log(rsp);
-                  var reply_data = rsp
+                  reply_data = rsp.body
                 }
               });
               var body = {body: reply_data, subject: "test",
