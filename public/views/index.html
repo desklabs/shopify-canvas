@@ -34,6 +34,7 @@
                     class: "topic"
                   }
                 }};
+              console.log(JSON.stringify(body));
               
               Desk.canvas.client.ajax(url,
                 {client : ctx.client,
@@ -45,7 +46,8 @@
                     console.log(data.payload.id)
                   } else {
                    alert("post article failed");
-                   console.log(data)
+                   console.log(data);
+                   console.log(data.payload)
                 }
                 }
               })
