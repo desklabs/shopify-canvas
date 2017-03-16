@@ -10,6 +10,7 @@
     <script src="https://ajax.deskapi.com/libs/desk/canvas/1.0.0/desk-canvas-all.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
    <script>
+     $('button').click(function() {
       Desk.canvas(function() {
         Desk.canvas.client.refreshSignedRequest(function(data) {
           if (data.status === 200) {
@@ -17,7 +18,6 @@
               , ctx      = JSON.parse(Desk.canvas.decode(sr))
               , url      = ctx.context.environment.case.url + '/replies/draft'
               , reply_data = ''
-            $('button').click(function() {
               Desk.canvas.client.ajax(url, {
                 client: ctx.client,
                 method: 'GET',
@@ -54,9 +54,9 @@
               })
               
         })
-       }
       })
      })
+    }
    </script>
 
 </body>
