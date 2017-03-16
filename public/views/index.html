@@ -24,10 +24,8 @@
                 success: function(rsp) {
                   console.log(rsp);
                   console.log(rsp.payload.body);
-                  reply_data = rsp.payload.body
-                }
-              });
-              var body = {body: reply_data, subject: "test",
+
+                  var body = {body: rsp.payload.body, subject: "test",
                 _links: {
                   topic: {
                     href: "/api/v2/topics/642669",
@@ -36,6 +34,7 @@
                 }};
               console.log(JSON.stringify(body));
               
+              url = ctx.client.instanceUrl + "/api/v2/articles"
               Desk.canvas.client.ajax(url,
                 {client : ctx.client,
                   method: 'POST',
@@ -51,10 +50,13 @@
                 }
                 }
               })
-            })
-          }
+                }
+              })
+              
         })
+       }
       })
+     })
    </script>
 
 </body>
