@@ -32,21 +32,22 @@ app.post('/', function (req, res) {
    res.send("authentication failed");
   }; 
 });
-
+i
+/*
 app.get('/push', function (req, res) {
   var sr = Desk.canvas.client.signedrequest();
-var url = sr.client.instanceurl +"/articles";
-var reply_url = sr.context.environment.case.url+"/replies";
-
-Desk.canvas.client.ajax(reply_url, 
-{client:sr.client,
- success: function(data) {
- if (200 === data.status) {
-   var reply_data = data.body;
-} else {
-   res.send("authentication failed");
-};
-}
+  var url = sr.client.instanceurl +"/articles";
+  var reply_url = sr.context.environment.case.url+"/replies";
+  
+  Desk.canvas.client.ajax(reply_url, 
+  {client:sr.client,
+   success: function(data) {
+   if (200 === data.status) {
+     var reply_data = data.body;
+  } else {
+     res.send("get article failed");
+  };
+  }
 });
 
 var body = {body: reply_data, subject: "test",
@@ -68,7 +69,7 @@ Desk.canvas.client.ajax(url,
   }
 });
 });
-
+*/
 var port = process.env.PORT || 9000;
 app.listen(port);
 console.log('Listening on port ' + port);

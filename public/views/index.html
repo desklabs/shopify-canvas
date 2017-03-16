@@ -6,10 +6,51 @@
 </head>
 <body>
     <script src="https://ajax.deskapi.com/libs/desk/canvas/1.0.0/desk-canvas-all.js"></script>
+   <script>
+var oLink = document.getElementById('link');
+oLink.addEventListener('click', postArticle);
+   
+ function postArticle() {
+   alert("Success");
+   var sr = Desk.canvas.client.signedrequest();
+   var url = sr.client.instanceurl +"/articles";
+   var reply_url = sr.context.environment.case.url+"/replies";
+  
+   Desk.canvas.client.ajax(reply_url, 
+     {client:sr.client,
+     success: function(data) {
+     if (200 === data.status) {
+       var reply_data = data.body;
+     } else {
+       res.send("get article failed");
+     };
+     }
+ });
+
+var body = {body: reply_data, subject: "test",
+  _links: {
+    topic: {
+      href: "/api/v2/topics/642669",
+      class: "topic"
+    }
+  }};
+
+Desk.canvas.client.ajax(url,
+  {client : sr.client,
+    method: 'POST',
+    data: JSON.stringify(body),
+    success : function(data) {
+    if (201 === data.status) {
+      alert("Success");
+    } else {
+     res.send("get article failed");
+  }
+  }
+});
+}
+   </script>
   <h3>Please select the product related to this case</h3>
-  <form action="/push" method="get">
-    <input type="submit" value="Save this reply as an Article" name="button">
-  </form>
+  <button onclick="postArticle()">Click Me</button>
 
 </body>
 </html>
