@@ -16,8 +16,8 @@
             var sr       = data.payload.response.split('.')[1]
               , ctx      = JSON.parse(Desk.canvas.decode(sr))
               , url      = ctx.context.environment.case.url + '/replies/draft'
-              , reply_data = ''
-            $('button').click(function() {
+              , article_id = 0
+            $('button').click(function(test, callback) {
               Desk.canvas.client.ajax(url, {
                 client: ctx.client,
                 method: 'GET',
@@ -25,7 +25,7 @@
                   console.log(rsp);
                   console.log(rsp.payload.body);
 
-                  var body = {body: rsp.payload.body, subject: "test",
+                  var body = {body: rsp.payload.body, subject: rsp.payload.subject,
                 _links: {
                   topic: {
                     href: "/api/v2/topics/642669",
@@ -42,6 +42,7 @@
                   success : function(data) {
                   if (201 === data.status) {
                     alert("Success");
+                    article_id = data.payload.id;
                     console.log(data.payload.id)
                   } else {
                    alert("post article failed");
@@ -51,9 +52,10 @@
                 }
               })
                 }
-              })
-              
-        })
+              });
+              callback();
+        });
+        window.open(ctx.client.instanceUrl + "/admin/content-management/articles/" + article_id + "/edit", "_blank")
        }
       })
      })
