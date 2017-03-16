@@ -32,7 +32,7 @@ app.post('/', function (req, res) {
    res.send("authentication failed");
   }; 
 });
-i
+
 /*
 app.get('/push', function (req, res) {
   var sr = Desk.canvas.client.signedrequest();
