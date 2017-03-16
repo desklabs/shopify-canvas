@@ -33,43 +33,6 @@ app.post('/', function (req, res) {
   }; 
 });
 
-/*
-app.get('/push', function (req, res) {
-  var sr = Desk.canvas.client.signedrequest();
-  var url = sr.client.instanceurl +"/articles";
-  var reply_url = sr.context.environment.case.url+"/replies";
-  
-  Desk.canvas.client.ajax(reply_url, 
-  {client:sr.client,
-   success: function(data) {
-   if (200 === data.status) {
-     var reply_data = data.body;
-  } else {
-     res.send("get article failed");
-  };
-  }
-});
-
-var body = {body: reply_data, subject: "test",
-  _links: {
-    topic: {
-      href: "/api/v2/topics/642669",
-      class: "topic"
-    }
-  }};
-
-Desk.canvas.client.ajax(url,
-  {client : sr.client,
-    method: 'POST',
-    data: JSON.stringify(body),
-    success : function(data) {
-    if (201 === data.status) {
-      alert("Success");
-    }
-  }
-});
-});
-*/
 var port = process.env.PORT || 9000;
 app.listen(port);
 console.log('Listening on port ' + port);
