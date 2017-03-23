@@ -26,11 +26,11 @@ app.post('/', function (req, res) {
   var hash = CryptoJS.HmacSHA256(context, shared); 
   // encrypt signed hash to base64
   var b64Hash = CryptoJS.enc.Base64.stringify(hash);
-  if (hashedContext === b64Hash) {
+  //if (hashedContext === b64Hash) {
    res.sendFile(path.join(views, 'index.html'));
-  } else {
-   res.send("authentication failed");
-  }; 
+  //} else {
+   //res.send("authentication failed");
+  //}; 
 });
 
 var port = process.env.PORT || 9000;
