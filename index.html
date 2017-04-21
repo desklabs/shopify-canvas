@@ -40,7 +40,7 @@
                   console.log(ctx.client);
                   ctx.client.host = ctx.client.instanceUrl;
                   
-                  url2 = ctx.client.instanceUrl + "/agent/textile/parse?textile=" + uri;
+                  url2 = "https://rocky-beyond-23118.herokuapp.com?textile=" + uri;
                   console.log(url2);
                   Desk.canvas.client.ajax(url2,
                     {client : ctx.client,
