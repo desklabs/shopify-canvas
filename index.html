@@ -37,10 +37,8 @@
                   var uri = encodeURI(rsp.payload.body);
 
                   console.log(uri);
-                  console.log(ctx.client);
-                  ctx.client.host = ctx.client.instanceUrl;
                   
-                  url2 = window.location.href;+ uri;
+                  url2 = window.location.href + "/parse?textile" + uri;
                   console.log(url2);
                   $.get(url2,
                     function(data) {
