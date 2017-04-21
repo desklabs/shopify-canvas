@@ -37,6 +37,8 @@
                   var uri = encodeURI(rsp.payload.body);
 
                   console.log(uri);
+                  console.log(ctx.client);
+                  ctx.client.host = ctx.client.instanceUrl;
                   
                   url2 = ctx.client.instanceUrl + "/agent/textile/parse?textile=" + uri;
                   console.log(url2);
