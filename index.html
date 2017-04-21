@@ -16,6 +16,7 @@
   </style>
 </head>
 <body>
+ <div class="kb modal" id="textile_preview" style="display: none"></div>
  <button id='link'>Preview Textile</button>
     <script src="https://ajax.deskapi.com/libs/desk/canvas/1.0.0/desk-canvas-all.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -42,7 +43,8 @@
                   console.log(url2);
                   $.get(url2,
                     function(data) {
-                        $("#link").after(data);
+                        $("#textile_preview").html(data);
+                        $("#textile_preview").show();
                       }
                     )
                 }
