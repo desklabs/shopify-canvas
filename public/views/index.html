@@ -39,6 +39,7 @@
                   console.log(uri);
                   
                   url2 = ctx.client.instanceUrl + "/agent/textile/parse?textile=" + uri;
+                  console.log(url2);
                   Desk.canvas.client.ajax(url2,
                     {client : ctx.client,
                       method: 'GET',
