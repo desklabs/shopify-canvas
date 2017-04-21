@@ -1,7 +1,7 @@
 {
-  "name": "my_canvas_app",
+  "name": "textile_preview",
   "version": "1.0.0",
-  "description": "Create an article from last response in Desk.com",
+  "description": "Preview Textile in Desk.com Next Gen Agent",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

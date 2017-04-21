@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Create Article From Draft</title>
+  <title>Textile Preview</title>
   <style>
      #link { 
            border-color: #009DDC;
@@ -16,7 +16,7 @@
   </style>
 </head>
 <body>
- <button id='link'>Create Article</button>
+ <button id='link'>Preview Textile</button>
     <script src="https://ajax.deskapi.com/libs/desk/canvas/1.0.0/desk-canvas-all.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
    <script>
@@ -34,30 +34,20 @@
                 success: function(rsp) {
                   console.log(rsp);
                   console.log(rsp.payload.subject);
+                  var uri = encodeURI(resp.payload.body);
 
-                  var body = {body: rsp.payload.body, subject: rsp.payload.subject,
-                  _links: {
-                    topic: {
-                      href: "/api/v2/topics/642669",
-                      class: "topic"
-                    }
-                  }};
-                  console.log(JSON.stringify(body));
+                  console.log(uri);
                   
-                  url2 = ctx.client.instanceUrl + "/api/v2/articles"
+                  url2 = ctx.client.instanceUrl + "/agent/textile/parse?textile=" + uri;
                   Desk.canvas.client.ajax(url2,
                     {client : ctx.client,
-                      method: 'POST',
-                      data: JSON.stringify(body),
+                      method: 'GET',
                       success : function(data) {
                         if (201 === data.status) {
-                          alert("Success");
-                          console.log(data.payload.id);
-                          window.open(ctx.client.instanceUrl + "/admin/content-management/articles/" + data.payload.id + "/edit", "_blank")
+                          alert(data.payload.body);
+                          console.log(data.payload);
                         } else {
-                         alert("post article failed");
-                         console.log(data);
-                         console.log(data.payload)
+                         alert("Failed");
                         }
                       }
                     })
