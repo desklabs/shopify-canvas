@@ -72,6 +72,7 @@
                   console.log(rsp);
                   console.log(rsp.payload.subject);
                   var uri = encodeURI(rsp.payload.body);
+                  uri = uri.replace(/#/g, '%23');
 
                   console.log(uri);
                   
