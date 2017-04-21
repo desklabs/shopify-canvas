@@ -2,6 +2,7 @@ require 'sinatra'
 require 'redcloth'
 
 get '/' do
+  headers['Access-Control-Allow-Origin'] = "*"
   File.read('index.html')
 end
 
