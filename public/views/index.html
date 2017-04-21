@@ -44,7 +44,8 @@
                     {client : ctx.client,
                       method: 'GET',
                       success : function(data) {
-                        if (200 === data.status) {
+                        console.log(data);
+                        if (data.status === 200) {
                           alert(data.payload.body);
                           console.log(data.payload);
                         } else {
