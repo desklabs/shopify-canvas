@@ -40,7 +40,7 @@
                   console.log(ctx.client);
                   ctx.client.host = ctx.client.instanceUrl;
                   
-                  url2 = "https://rocky-beyond-23118.herokuapp.com/parse?textile=" + uri;
+                  url2 = window.location.href;+ uri;
                   console.log(url2);
                   $.get(url2,
                     function(data) {
