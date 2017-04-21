@@ -13,13 +13,60 @@
            border-radius: 4px;
            box-shadow: 0 0 1px #fff;
            border: 1px solid #009DDC;}
+
+           /* The Modal (background) */
+           .modal {
+               display: none; /* Hidden by default */
+               position: fixed; /* Stay in place */
+               z-index: 1; /* Sit on top */
+               padding-top: 100px; /* Location of the box */
+               left: 0;
+               top: 0;
+               width: 100%; /* Full width */
+               height: 100%; /* Full height */
+               overflow: auto; /* Enable scroll if needed */
+               background-color: rgb(0,0,0); /* Fallback color */
+               background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+           }
+           
+           /* Modal Content */
+           .modal-content {
+               background-color: #fefefe;
+               margin: auto;
+               padding: 20px;
+               border: 1px solid #888;
+               width: 80%;
+           }
+           
+           /* The Close Button */
+           .close {
+               color: #aaaaaa;
+               float: right;
+               font-size: 28px;
+               font-weight: bold;
+           }
+           
+           .close:hover,
+           .close:focus {
+               color: #000;
+               text-decoration: none;
+               cursor: pointer;
+           }
   </style>
 </head>
 <body>
- <div class="kb modal" id="textile_preview" style="display: none"></div>
+ <div class="modal">
+<div class="modal-content">
+    <span class="close">&times;</span>
+    <p id="textile_preview"></p>
+  </div>
+</div>
  <button id='link'>Preview Textile</button>
     <script src="https://ajax.deskapi.com/libs/desk/canvas/1.0.0/desk-canvas-all.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+   <script>
+     $("#close").click(function() {$("#modal".hide();})
+   </script>
    <script>
       Desk.canvas(function() {
         Desk.canvas.client.refreshSignedRequest(function(data) {
@@ -44,7 +91,7 @@
                   $.get(url2,
                     function(data) {
                         $("#textile_preview").html(data);
-                        $("#textile_preview").show();
+                        $(".modal").show();
                       }
                     )
                 }
