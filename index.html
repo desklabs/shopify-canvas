@@ -15,7 +15,7 @@
            border: 1px solid #009DDC;}
 
            /* The Modal (background) */
-           .modali-content {
+           .modal-content {
                display: none; /* Hidden by default */
                position: fixed; /* Stay in place */
                z-index: 1; /* Sit on top */
@@ -79,7 +79,7 @@
                   $.get(url2,
                     function(data) {
                         $("#textile_preview").html(data);
-                        $(".modal").show();
+                        $(".modal-content").show();
                       }
                     )
                 }
