@@ -55,9 +55,7 @@
    <script>
      $(".close").click(function() {
        $(".modal-content").hide();
-      })
-   </script>
-   <script>
+      });
       Desk.canvas(function() {
         Desk.canvas.client.refreshSignedRequest(function(data) {
           if (data.status === 200) {
