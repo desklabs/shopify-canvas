@@ -55,6 +55,7 @@
    <script>
      $(".close").click(function() {
        $(".modal-content").hide();
+       $("button").show();
       });
       Desk.canvas(function() {
         Desk.canvas.client.refreshSignedRequest(function(data) {
@@ -80,6 +81,7 @@
                     function(data) {
                         $("#textile_preview").html(data);
                         $(".modal-content").show();
+                        $("button").hide();
                       }
                     )
                 }
