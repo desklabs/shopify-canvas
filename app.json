@@ -1,0 +1,16 @@
+{
+"name": "Canvas Textile Preview",
+"description": "A Desk.com canvas app that allows agents to preview Textile in the Next Gen Agent.", 
+"keywords": [
+"productivity",
+"service",
+"canvas",
+"textile",
+"preview",
+"next gen agent"
+],
+"website": "https://github.com/desklabs/textile-canvas",
+"repository": "https://github.com/desklabs/textile-canvas.git",
+"logo": "http://webassets.desk.com/resources/images/icons/favicon-apple-114x114.png?v=3.5",
+"success_url": "https://login.desk.com"
+}
