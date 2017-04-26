@@ -11,8 +11,8 @@ post '/' do
   File.read('index.html')
 end
 
-get '/parse' do
-  body = params[:textile] || ""
+post '/parse' do
+  body = request.body || ""
   body = body.gsub("??", "<notextile>??</notextile>")
   RedCloth.new(body, [:filter_html, :filter_styles, :filter_classes, :filter_ids, :no_span_caps]).to_html
 end

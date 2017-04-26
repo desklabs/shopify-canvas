@@ -82,14 +82,10 @@
                 method: 'GET',
                 success: function(rsp) {
                   console.log(rsp);
-                  console.log(rsp.payload.subject);
-                  var uri = encodeURIComponent(rsp.payload.body);
-
-                  console.log(uri);
                   
-                  url2 = window.location.href + "parse?textile=" + uri;
+                  url2 = window.location.href + "parse";
                   console.log(url2);
-                  $.get(url2,
+                  $.post(url2, rsp.payload.body,
                     function(data) {
                         $("#textile_preview").html(data);
                         $(".modal-content").show();
