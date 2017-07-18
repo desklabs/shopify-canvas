@@ -1,9 +1,9 @@
 <html>
 <head>
-  <title>Canvas Customer Cases</title>
+  <title>Shopify</title>
 </head>
 <body>
-  <h3>Number of Customer Cases</h3>
+  <h3>Customer</h3>
   <div id="content"></div>
 
   <script src="https://ajax.deskapi.com/libs/desk/canvas/1.0.0/desk-canvas-all.js"></script>
@@ -16,14 +16,14 @@
             console.log(data.payload);
             var sr    = data.payload.response.split('.')[1]
               , ctx   = JSON.parse(Desk.canvas.decode(sr))
-              , url   = ctx.context.environment.customer.url + '/cases'
+              , url   = ctx.context.environment.customer.url
 
             Desk.canvas.client.ajax(url, {
               client: ctx.client,
               method: 'GET',
               success: function(rsp) {
                 console.log(rsp);
-                $("#content").html(rsp.payload.total_entries);
+                $("#content").html(rsp.payload.first_name);
               }
            })
          }
