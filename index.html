@@ -1,107 +1,34 @@
 <html>
 <head>
-  <title>Textile Preview</title>
-  <style>
-     #link { 
-           border-color: #009DDC;
-           font-size: 12px;
-           text-align: center;
-           background: #009DDC !important;
-           padding: 7px 14px !important;
-           color: white;
-           width: 100%;
-           border-radius: 4px;
-           box-shadow: 0 0 1px #fff;
-           border: 1px solid #009DDC;}
-
-           /* The Modal (background) */
-           .modal-content {
-               display: none; /* Hidden by default */
-               position: fixed; /* Stay in place */
-               z-index: 1; /* Sit on top */
-               left: 0;
-               top: 0;
-               width: 100%; /* Full width */
-               height: 100%; /* Full height */
-               overflow: auto; /* Enable scroll if needed */
-               background: white;
-               border: 1px solid #d6dadd;
-               border-radius: 4px;
-               box-sizing: border-box;
-           }
-
-           /* Text Content */
-           p {
-             font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
-             font-size: 13px;
-             font-weight: 400;
-             color: rgb(62, 70, 81);
-             line-height: 19px;
-	   }
-           /* The Close Button */
-           .close {
-               color: #aaaaaa;
-               position: fixed;
-               top: 0px;
-               right: 12px;
-               font-size: 28px;
-               font-weight: bold;
-           }
-           
-           .close:hover,
-           .close:focus {
-               color: #000;
-               text-decoration: none;
-               cursor: pointer;
-           }
-  </style>
+  <title>Canvas Customer Cases</title>
 </head>
 <body>
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <p id="textile_preview"></p>
-  </div>
- <button id='link'>Preview Textile</button>
-    <script src="https://ajax.deskapi.com/libs/desk/canvas/1.0.0/desk-canvas-all.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-   <script>
-     $(".close").click(function() {
-       $(".modal-content").hide();
-       $("button").show();
-      });
+  <h3>Number of Customer Cases</h3>
+  <div id="content"></div>
+
+  <script src="https://ajax.deskapi.com/libs/desk/canvas/1.0.0/desk-canvas-all.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+  <script>
       Desk.canvas(function() {
         Desk.canvas.client.refreshSignedRequest(function(data) {
           if (data.status === 200) {
-            var sr       = data.payload.response.split('.')[1]
-              , ctx      = JSON.parse(Desk.canvas.decode(sr))
-              , url      = ctx.context.environment.case.url + '/replies/draft'
+            console.log(data.payload);
+            var sr    = data.payload.response.split('.')[1]
+              , ctx   = JSON.parse(Desk.canvas.decode(sr))
+              , url   = ctx.context.environment.customer.url + '/cases'
 
-            $('button').click(function() {
-              Desk.canvas.client.ajax(url, {
-                client: ctx.client,
-                method: 'GET',
-                success: function(rsp) {
-                  console.log(rsp);
-                  
-                  body = {"textile": rsp.payload.body};
-                  console.log(body);
-                  url2 = window.location.href + "parse";
-                  console.log(url2);
-                  $.post(url2, body,
-                    function(data) {
-                        $("#textile_preview").html(data);
-                        $(".modal-content").show();
-                        $("button").hide();
-                      }
-                    )
-                }
-              })
-            })
-          }
-        })
+            Desk.canvas.client.ajax(url, {
+              client: ctx.client,
+              method: 'GET',
+              success: function(rsp) {
+                console.log(rsp);
+                $("#content").html(rsp.payload.total_entries);
+              }
+           })
+         }
+       })
       })
-    
-   </script>
-
+  </script>
 </body>
 </html>
