@@ -13,11 +13,15 @@ puts shop_url
 ShopifyAPI::Base.site = shop_url
 
 
-puts "---Checking Authentication---"
+puts "---Checking Shopify Authentication---"
 shop = ShopifyAPI::Shop.current
-puts shop.to_s
+puts "----"
 
 set :protection, :except => :frame_options
+
+#####        #####
+###   Routes   ###
+#####        #####
 
 get '/' do
   File.read('views/index.html')
@@ -26,17 +30,19 @@ end
 post '/' do 
   result = verify_and_return_context(request)
 
-  context = JSON.parse(result[1])
-  customer_emails = context['context']['environment']['customer']['emailAddresses']
-  puts customer_emails
-  customer_email = customer_emails.length > 0 ? customer_emails.first['value'] : ""
-  puts customer_email
+  shopify_customer = search_shopify_customer(result[1])
 
-  shopify_customer = ShopifyAPI::Customer.search(query: customer_email)
   if result[0]
-    erb :index, :locals => {:result => shopify_customer}
+    haml :index, :locals => {:customer => shopify_customer, :orders => shopify_customer.orders}
   end
 end
+
+#####         #####
+###   HELPERS   ###
+#####         #####
+
+#Parses the canvas request body and a verifies the CanvasObject based on the shared key.
+#Returns: [verified true/false, decoded context]
 
 def verify_and_return_context(request)
   request.body.rewind  # in case someone already read it
@@ -45,7 +51,6 @@ def verify_and_return_context(request)
   data = URI.unescape(request.body.read.to_s.split('signed_request=')[1])
   hashed_context = data.split('.')[0]
   context        = data.split('.')[1]
-  
 
   signed_context = OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha256'), canvas_key, context)
   hash = Base64.strict_encode64(signed_context).strip()
@@ -53,4 +58,16 @@ def verify_and_return_context(request)
   puts hashed_context == hash
   puts "-----"
   return [hashed_context == hash, Base64.decode64(context)]
+end
+
+#Searches Shopify for a customer based on the Desk context
+def search_shopify_customer(context)
+  context = JSON.parse(context)
+  customer_emails = context['context']['environment']['customer']['emailAddresses']
+  customer_email = customer_emails.length > 0 ? customer_emails.first['value'] : ""
+
+  shopify_customer = ShopifyAPI::Customer.search(query: customer_email).first
+  puts shopify_customer
+  return shopify_customer
+  #shopify_customer = JSON.parse(shopify_customer)
 end
