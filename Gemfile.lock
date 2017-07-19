@@ -1,6 +1,19 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    actionpack (5.1.2)
+      actionview (= 5.1.2)
+      activesupport (= 5.1.2)
+      rack (~> 2.0)
+      rack-test (~> 0.6.3)
+      rails-dom-testing (~> 2.0)
+      rails-html-sanitizer (~> 1.0, >= 1.0.2)
+    actionview (5.1.2)
+      activesupport (= 5.1.2)
+      builder (~> 3.1)
+      erubi (~> 1.4)
+      rails-dom-testing (~> 2.0)
+      rails-html-sanitizer (~> 1.0, >= 1.0.3)
     activemodel (5.1.2)
       activesupport (= 5.1.2)
     activemodel-serializers-xml (1.0.1)
@@ -24,12 +37,37 @@ GEM
     arel (8.0.0)
     builder (3.2.3)
     concurrent-ruby (1.0.5)
+    dotenv (2.2.1)
+    dotenv-rails (2.2.1)
+      dotenv (= 2.2.1)
+      railties (>= 3.2, < 5.2)
+    erubi (1.6.1)
     i18n (0.8.6)
+    loofah (2.0.3)
+      nokogiri (>= 1.5.9)
+    method_source (0.8.2)
+    mini_portile2 (2.2.0)
     minitest (5.10.2)
     mustermann (1.0.0)
+    nokogiri (1.8.0)
+      mini_portile2 (~> 2.2.0)
     rack (2.0.3)
     rack-protection (2.0.0)
       rack
+    rack-test (0.6.3)
+      rack (>= 1.0)
+    rails-dom-testing (2.0.3)
+      activesupport (>= 4.2.0)
+      nokogiri (>= 1.6)
+    rails-html-sanitizer (1.0.3)
+      loofah (~> 2.0)
+    railties (5.1.2)
+      actionpack (= 5.1.2)
+      activesupport (= 5.1.2)
+      method_source
+      rake (>= 0.8.7)
+      thor (>= 0.18.1, < 2.0)
+    rake (12.0.0)
     shopify_api (4.9.0)
       activeresource (>= 3.0.0)
       rack
@@ -38,6 +76,7 @@ GEM
       rack (~> 2.0)
       rack-protection (= 2.0.0)
       tilt (~> 2.0)
+    thor (0.19.4)
     thread_safe (0.3.6)
     tilt (2.0.7)
     tzinfo (1.2.3)
@@ -47,6 +86,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  dotenv-rails
   shopify_api (~> 4.9)
   sinatra
 
