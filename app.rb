@@ -24,7 +24,7 @@ set :protection, :except => :frame_options
 #####        #####
 
 get '/' do
-  File.read('views/index.html')
+  haml :general_error
 end
 
 post '/' do 
@@ -33,10 +33,25 @@ post '/' do
   shopify_customer = search_shopify_customer(result[1])
 
   if result[0]
-    haml :index, :locals => {:customer => shopify_customer, :orders => shopify_customer.orders}
+    if shopify_customer
+      haml :index, :locals => {:customer => shopify_customer, :orders => shopify_customer.orders}
+    else
+      haml :order
+    end
+  else
+    haml :general_error
   end
 end
 
+post '/order_search' do
+  order_search = params[:order_search]
+  puts order_search
+
+  order_search_results = [search_shopify_order(order_search)]
+  puts "ORder search results"
+  puts order_search_results
+  haml :order_search_results, :locals => {:order_search_results => order_search_results}
+end
 #####         #####
 ###   HELPERS   ###
 #####         #####
@@ -66,8 +81,34 @@ def search_shopify_customer(context)
   customer_emails = context['context']['environment']['customer']['emailAddresses']
   customer_email = customer_emails.length > 0 ? customer_emails.first['value'] : ""
 
-  shopify_customer = ShopifyAPI::Customer.search(query: customer_email).first
-  puts shopify_customer
-  return shopify_customer
-  #shopify_customer = JSON.parse(shopify_customer)
+  @shopify_customer = ShopifyAPI::Customer.search(query: customer_email).first
+  puts @shopify_customer
+  return @shopify_customer
+end
+
+def search_shopify_order(search)
+  count = ShopifyAPI::Order.count
+  puts "Order Count: #{count}"
+  pages = count / 250
+  pages = pages.to_i + 1
+  puts pages
+  puts "SEarch #{search}"
+  order = nil
+  begin
+      orders = ShopifyAPI::Order.find(:all, params: {limit: 250, page: pages})
+      puts "Orders: #{orders}"
+      orders.each do |o|
+        puts "order number: #{o.order_number}"
+        puts "order name: #{o.name}"
+        if o.order_number.to_s == search.to_s
+          order = o
+        elsif o.name.to_s == search.to_s
+          order = o 
+        end
+      end
+      pages -= 1
+      puts order
+      break if order
+  end while pages > 0
+  return order
 end

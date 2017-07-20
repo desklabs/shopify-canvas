@@ -1,0 +1,7 @@
+%h2 Order Search
+%table
+  - order_search_results.each do |order|
+    %tr
+      %td= order.name
+      %td= order.fulfillment_status
+      %td= order.total_price
