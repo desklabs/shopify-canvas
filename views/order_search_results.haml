@@ -1,7 +1,14 @@
 %h2 Order Lookup
-%table
-  - order_search_results.each do |order|
+%form{ :action => "/order_search", :method => "post"}
+  %input{:type => "text", :name => "order_search", :class => "text"}
+  %input{:type => "submit", :value => "Send", :class => "button"}
+
+- if order
+  %table
     %tr
       %td= order.name
       %td= order.fulfillment_status
       %td= order.total_price
+- else
+  %p No orders found
+

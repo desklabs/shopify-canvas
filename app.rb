@@ -46,8 +46,8 @@ end
 post '/order_search' do
   order_search = params[:order_search]
 
-  order_search_results = [search_shopify_order(order_search)]
-  haml :order_search_results, :layout => :shopify, :locals => {:order_search_results => order_search_results}
+  order_search_result = search_shopify_order(order_search)
+  haml :order_search_results, :layout => :shopify, :locals => {:order=> order_search_result}
 end
 #####         #####
 ###   HELPERS   ###
