@@ -24,7 +24,7 @@ set :protection, :except => :frame_options
 #####        #####
 
 get '/' do
-  haml :general_error
+  haml :general_error, :layout => :shopify
 end
 
 post '/' do 
@@ -34,23 +34,20 @@ post '/' do
 
   if result[0]
     if shopify_customer
-      haml :index, :locals => {:customer => shopify_customer, :orders => shopify_customer.orders}
+      haml :index, :layout => :shopify, :locals => {:customer => shopify_customer, :orders => shopify_customer.orders}
     else
-      haml :order
+      haml :order, :layout => :shopify
     end
   else
-    haml :general_error
+    haml :general_error, :layout => :shopify
   end
 end
 
 post '/order_search' do
   order_search = params[:order_search]
-  puts order_search
 
   order_search_results = [search_shopify_order(order_search)]
-  puts "ORder search results"
-  puts order_search_results
-  haml :order_search_results, :locals => {:order_search_results => order_search_results}
+  haml :order_search_results, :layout => :shopify, :locals => {:order_search_results => order_search_results}
 end
 #####         #####
 ###   HELPERS   ###
@@ -88,18 +85,13 @@ end
 
 def search_shopify_order(search)
   count = ShopifyAPI::Order.count
-  puts "Order Count: #{count}"
   pages = count / 250
   pages = pages.to_i + 1
-  puts pages
-  puts "SEarch #{search}"
   order = nil
+
   begin
       orders = ShopifyAPI::Order.find(:all, params: {limit: 250, page: pages})
-      puts "Orders: #{orders}"
       orders.each do |o|
-        puts "order number: #{o.order_number}"
-        puts "order name: #{o.name}"
         if o.order_number.to_s == search.to_s
           order = o
         elsif o.name.to_s == search.to_s
@@ -107,7 +99,6 @@ def search_shopify_order(search)
         end
       end
       pages -= 1
-      puts order
       break if order
   end while pages > 0
   return order
