@@ -40,11 +40,7 @@ post '/' do
   shopify_customer = search_shopify_customer(decode_context)
   session[:customer] = shopify_customer
 
- # if shopify_customer 
-    haml :customer, :layout => :shopify, :locals => {:customer => shopify_customer}
- # else
- #   haml :order, :layout => :shopify
- # end
+  haml :customer, :layout => :shopify, :locals => {:customer => shopify_customer}
 end
 
 post '/order_search' do
