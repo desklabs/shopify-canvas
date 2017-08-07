@@ -29,11 +29,7 @@
     %input{:type => "submit", :value => "Send", :class => "button"}
   
   - if order
-    %table
-      %tr
-        %td= order.name
-        %td= order.fulfillment_status
-        %td= order.total_price
+    = haml :order_line, :locals => {:order => order}
   - else
     %p No orders found
 

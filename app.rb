@@ -5,10 +5,10 @@ require 'openssl'
 require 'Base64'
 require 'json'
 
-shop_url = "https://#{ENV['SHOPIFY_API_KEY']}:#{ENV["SHOPIFY_API_SECRET"]}@#{ENV["SHOPIFY_HOST"]}.myshopify.com/admin"
-ShopifyAPI::Base.site = shop_url
+@@shop_url = "https://#{ENV['SHOPIFY_API_KEY']}:#{ENV["SHOPIFY_API_SECRET"]}@#{ENV["SHOPIFY_HOST"]}.myshopify.com/admin"
+ShopifyAPI::Base.site = @@shop_url
 
-puts shop_url
+puts @@shop_url
 
 puts "---Checking Shopify Authentication---"
 shop = ShopifyAPI::Shop.current

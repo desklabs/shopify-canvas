@@ -1,0 +1,16 @@
+.customer-content
+  .customer-details
+    %span= customer.first_name
+    %span= customer.last_name
+
+    %h4 Customer Note
+    %p= customer.note
+  %h3 
+    Recent Orders
+    %a{:href => "#{@@shop_url + '/orders?customer_id=' + customer.id.to_s}"}
+      View All Orders
+  %hr
+  %ul
+    - orders = customer.orders.first(3)
+    - orders.each do |order|
+      = haml :order_line, :locals => {:order => order}
