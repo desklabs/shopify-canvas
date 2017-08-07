@@ -1,0 +1,12 @@
+{
+  "name": "Desk.com Shopify Canvas",
+  "description": "A Desk.com canvas app that allows agents to view information about customers and orders in Shopify",
+  "keywords": ["productivity", "service", "canvas", "orders", "shopify"],
+  "website": "https://github.com/desklabs/shopify-canvas",
+  "repository": "https://github.com/desklabs/shopify-canvas.git",
+  "logo": "http://webassets.desk.com/resources/images/icons/favicon-apple-114x114.png?v=3.5",
+  "success_url": "https://login.desk.com",
+  "env": {
+    "NODE_ENV": "production"
+  }
+}
