@@ -1,6 +1,32 @@
+!!!
 %html
   %head
     %title Desk.com Shopify Integration
+    :css
+      .tab { display: block;   background-color: #555;    color: white;    float: left;    border: none;    outline: none;    cursor: pointer;    padding: 10px 40px;    font-size: 17px; }
+      .tab:hover {background-color: #777;}
+      .navigation {}
+      .content {padding: 30px 0px;}
+      .order-content {}
+      .customer-content {}
+    %script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"}
+    :javascript
+      $(document).ready(function(){
+        $("#customer").click(function(){
+          $(".order-content").hide();
+          $(".customer-content").show();
+        });
+        $("#order").click(function(){
+          $(".order-content").show();
+          $(".customer-content").hide();
+        });
+      });
   %body
-    =yield
+    %div{:class => "navigation"}
+      %a{:class => "tab", :id => "customer" }
+        Customer
+      %a{:class => "tab", :id => "order" }
+        Order Lookup 
+    %div{:class => "content"}
+      =yield
 

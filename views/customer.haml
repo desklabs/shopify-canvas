@@ -1,0 +1,19 @@
+-if customer
+  :css
+    .order-content {display: none}
+
+  .customer-content
+    = haml :customer_content, :locals => {:customer => customer}
+-else
+  :css 
+    .customer-content {display: none}
+
+  %div{:class => "customer-content"}
+    %h2
+      No customer found
+
+%div{:class => "order-content"}
+  %h2 Order Lookup
+  %form{ :action => "/order_search", :method => "post"}
+    %input{:type => "text", :name => "order_search", :class => "text"}
+    %input{:type => "submit", :value => "Send", :class => "button"}

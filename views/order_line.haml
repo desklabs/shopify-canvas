@@ -1,0 +1,14 @@
+%li.order_line
+  %span= order.name
+  %span= " | "
+  %span=order.fulfillment_status ? order.fulfillment_status.camelcase : "Unfulfilled"
+  %p
+    - order.line_items.each do |item|
+      %h4= item.title
+      %span= "Quantity: "+ item.quantity.to_s
+      %span= "Price: $" +item.price.to_s
+
+  %h3="$" + order.total_price.to_s
+  %a{:href => "#{@@shop_url + '/orders/' + order.id.to_s}"}
+    View Order
+  %hr
