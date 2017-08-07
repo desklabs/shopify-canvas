@@ -1,0 +1,32 @@
+-if customer
+  :css
+    .order-content {display: none}
+
+  %div{:class => "customer-content"}
+    %h2
+      %span= customer.first_name 
+      %span= customer.last_name 
+    
+    %h3 Customer Note
+    %p= customer.note
+    %h3 Recent Orders
+    %table 
+      - orders = customer.orders
+      - orders.each do |order|
+        %tr
+          %td= order.name
+          %td= order.fulfillment_status
+          %td= order.total_price
+-else
+  :css 
+    .customer-content {display: none}
+
+  %div{:class => "customer-content"}
+    %h2
+      No customer found
+
+%div{:class => "order-content"}
+  %h2 Order Lookup
+  %form{ :action => "/order_search", :method => "post"}
+    %input{:type => "text", :name => "order_search", :class => "text"}
+    %input{:type => "submit", :value => "Send", :class => "button"}

@@ -38,19 +38,20 @@ post '/' do
   halt 401 unless session['auth']
   
   shopify_customer = search_shopify_customer(decode_context)
+  session[:customer] = shopify_customer
 
-  if shopify_customer 
-    haml :index, :layout => :shopify, :locals => {:customer => shopify_customer, :orders => shopify_customer.orders}
-  else
-    haml :order, :layout => :shopify
-  end
+ # if shopify_customer 
+    haml :customer, :layout => :shopify, :locals => {:customer => shopify_customer}
+ # else
+ #   haml :order, :layout => :shopify
+ # end
 end
 
 post '/order_search' do
   order_search = params[:order_search]
 
   order_search_result = search_shopify_order(order_search)
-  haml :order_search_results, :layout => :shopify, :locals => {:order=> order_search_result}
+  haml :order_search_results, :layout => :shopify, :locals => {:order=> order_search_result, :customer => session[:customer]}
 end
 
 #####         #####
