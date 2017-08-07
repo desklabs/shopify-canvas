@@ -7,6 +7,10 @@
   "logo": "http://webassets.desk.com/resources/images/icons/favicon-apple-114x114.png?v=3.5",
   "success_url": "https://login.desk.com",
   "env": {
-    "NODE_ENV": "production"
+    "NODE_ENV": "production",
+    "SHOPIFY_API_KEY": "",
+    "SHOPIFY_API_SECRET: "",
+    "SHOPIFY_HOST: "",
+    "CANVAS_KEY: ""
   }
 }
