@@ -1,14 +1,17 @@
 %li.order_line
-  %span= order.name
-  %span= " | "
-  %span=order.fulfillment_status ? order.fulfillment_status.camelcase : "Unfulfilled"
-  %p
-    - order.line_items.each do |item|
-      %h4= item.title
+  .order-info
+    %a{:href => "#{@@shop_url + '/orders/' + order.id.to_s}"}
+      %span.pull-left.label.label-info= "Order "+ order.name
+      -if order.fulfillment_status
+        %span.pull-right.label.label-success= "Fulfilled"
+      -else
+        %span.pull-right.label.label-warning= "Unfulfilled"
+
+  - order.line_items.each do |item|
+    .item
+      %h5= item.title
       %span= "Quantity: "+ item.quantity.to_s
       %span= "Price: $" +item.price.to_s
-
-  %h3="$" + order.total_price.to_s
-  %a{:href => "#{@@shop_url + '/orders/' + order.id.to_s}"}
-    View Order
-  %hr
+  %h4.total
+    %a{:href => "#{@@shop_url + '/orders/' + order.id.to_s}"}
+      ="$" + order.total_price.to_s
