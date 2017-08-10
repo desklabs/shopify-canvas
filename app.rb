@@ -4,133 +4,193 @@ require 'dotenv/load'
 require 'openssl'
 require 'Base64'
 require 'json'
+require 'omniauth-shopify-oauth2'
+@@token = nil
+SCOPE = 'read_products,read_orders,read_customers'
+SHOPIFY_API_KEY = ENV['SHOPIFY_API_KEY']
+SHOPIFY_SHARED_SECRET = ENV['SHOPIFY_SHARED_SECRET']
+SHOPIFY_HOST = ENV["SHOPIFY_HOST"]
 
-@@shop_url = "https://#{ENV['SHOPIFY_API_KEY']}:#{ENV["SHOPIFY_API_SECRET"]}@#{ENV["SHOPIFY_HOST"]}.myshopify.com/admin"
-ShopifyAPI::Base.site = @@shop_url
+unless SHOPIFY_API_KEY && SHOPIFY_SHARED_SECRET
+  abort("SHOPIFY_API_KEY and SHOPIFY_SHARED_SECRET environment variables must be set")
+end
 
-puts @@shop_url
 
-puts "---Checking Shopify Authentication---"
-shop = ShopifyAPI::Shop.current
-puts shop
-puts "----"
+use Rack::Session::Cookie, secret: SecureRandom.hex(64)
 
-set :protection, :except => :frame_options
-enable :sessions
+use OmniAuth::Builder do
+  provider :shopify, SHOPIFY_API_KEY, SHOPIFY_SHARED_SECRET, :scope => SCOPE
+end
 
-#####        #####
-###   Routes   ###
-#####        #####
-
-before do 
-  pass if request.path_info == '/'
+  @@shop_url = "https://#{ENV["SHOPIFY_HOST"]}.myshopify.com/admin"
   
-  if session['auth'] then pass else halt 401 end
-end
-
-get '/' do
-  halt 401
-end
-
-post '/' do 
-  session['auth'] = verify_context unless session['auth']
-
-  halt 401 unless session['auth']
   
-  shopify_customer = search_shopify_customer(decode_context)
-  session[:customer] = shopify_customer
-
-  haml :customer, :layout => :shopify, :locals => {:customer => shopify_customer}
-end
-
-post '/order_search' do
-  order_search = params[:order_search]
-
-  order_search_result = search_shopify_order(order_search)
-  haml :order_search_results, :layout => :shopify, :locals => {:order=> order_search_result, :customer => session[:customer]}
-end
-
-#####         #####
-###   HELPERS   ###
-#####         #####
-
-##
-#Parses the canvas request body and a verifies the CanvasObject based on the shared key.
-#
-def verify_context
-  data = parsed_request.split('.')
-  hashed_context = data[0]
-  @context       = data[1]
-
-  hash = Base64.strict_encode64(signed_context).strip()
-  return hashed_context == hash
-end
-
-##
-#Sinatra request body needs to be uri unescaped for some reason
-#
-def parsed_request
-  request.body.rewind
-
-  data = URI.unescape(request.body.read.to_s.split('signed_request=')[1])
-end
-
-##
-#Sign the context with the canvas shared key
-#
-def signed_context
-  signed_context = OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha256'), ENV['CANVAS_KEY'], @context)
-end
-
-##
-#Parses context and base64 decodes
-#
-def decode_context
-  data = parsed_request
+  set :protection, :except => :frame_options
+  enable :sessions
   
-  context = Base64.decode64(data.split('.')[1])
-end
-
-#Searches Shopify for a customer based on the Desk context
-#returns a shopify customer object
-def search_shopify_customer(context)
-  customer_emails = context_customer_emails(context)
-  shopify_customer = nil
-
-  customer_emails.each do |customer_email|
-    shopify_customer = ShopifyAPI::Customer.search(query: customer_email).first
-    break if shopify_customer
+  #####        #####
+  ###   Routes   ###
+  #####        #####
+  
+  before do 
+    pass if request.path_info == '/' || request.path_info == '/auth/shopify/callback' || request.path_info == '/auth/failure'
+    
+    if session['auth'] then pass else halt 401 end
+  end
+  
+  get '/' do
+    <<-HTML
+    <html>
+    <head>
+      <title>Shopify Oauth2</title>
+    </head>
+    <body>
+      <form action="/auth/shopify" method="get">
+      <label for="shop">Enter your store's URL:</label>
+      <input type="text" name="shop" placeholder="your-shop-url.myshopify.com">
+      <button type="submit">Log In</button>
+      </form>
+    </body>
+    </html>
+    HTML
   end
 
-  return shopify_customer
-end
+  get '/auth/:provider/callback' do
+    <<-HTML
+    <html>
+    <head>
+      <title>Shopify Oauth2</title>
+    </head>
+    <body>
+      <h3>Authorized</h3>
+      <p>Shop: #{request.env['omniauth.auth'].uid}</p>
+      <p>Token: #{request.env['omniauth.auth']['credentials']['token']}</p>
+    </body>
+    </html>
+    HTML
+    @@token = request.env['omniauth.auth']['credentials']['token']
+  end
 
-#returns an array of customer emails from the raw context
-def context_customer_emails(context)
-  context = JSON.parse(context)
-  customer_emails = context['context']['environment']['customer']['emailAddresses']
-  customer_emails = customer_emails.map {|x| x["value"]}
-end
-
-#Searches Shopify for a specific order by name or order_id
-#Returns a single order object
-def search_shopify_order(search)
-  count = ShopifyAPI::Order.count
-  pages = (count / 250) + 1
-  order = nil
-
-  begin
-      orders = ShopifyAPI::Order.find(:all, params: {limit: 250, page: pages})
-      orders.each do |o|
-        if o.order_number.to_s == search.to_s
-          order = o
-        elsif o.name.to_s == search.to_s
-          order = o 
+  get '/auth/failure' do
+    <<-HTML
+    <html>
+    <head>
+      <title>Shopify Oauth2</title>
+    </head>
+    <body>
+      <h3>Failed Authorization</h3>
+      <p>Message: #{params[:message]}</p>
+    </body>
+    </html>
+    HTML
+  end
+  
+  post '/' do 
+    if @@token
+      ShopifyAPI::Session.setup(api_key: SHOPIFY_API_KEY, secret: SHOPIFY_SHARED_SECRET) 
+      client = ShopifyAPI::Session.new("#{SHOPIFY_HOST}.myshopify.com", @@token)
+      ShopifyAPI::Base.activate_session(client)
+    else
+      redirect '/'
+    end
+    session['auth'] = verify_context unless session['auth']
+  
+    halt 401 unless session['auth']
+    
+    shopify_customer = search_shopify_customer(decode_context)
+    session[:customer] = shopify_customer
+  
+    haml :customer, :layout => :shopify, :locals => {:customer => shopify_customer}
+  end
+  
+  post '/order_search' do
+    order_search = params[:order_search]
+  
+    order_search_result = search_shopify_order(order_search)
+    haml :order_search_results, :layout => :shopify, :locals => {:order=> order_search_result, :customer => session[:customer]}
+  end
+  
+  #####         #####
+  ###   HELPERS   ###
+  #####         #####
+  
+  ##
+  #Parses the canvas request body and a verifies the CanvasObject based on the shared key.
+  #
+  def verify_context
+    data = parsed_request.split('.')
+    hashed_context = data[0]
+    @context       = data[1]
+  
+    hash = Base64.strict_encode64(signed_context).strip()
+    return hashed_context == hash
+  end
+  
+  ##
+  #Sinatra request body needs to be uri unescaped for some reason
+  #
+  def parsed_request
+    request.body.rewind
+  
+    data = URI.unescape(request.body.read.to_s.split('signed_request=')[1])
+  end
+  
+  ##
+  #Sign the context with the canvas shared key
+  #
+  def signed_context
+    signed_context = OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha256'), ENV['CANVAS_KEY'], @context)
+  end
+  
+  ##
+  #Parses context and base64 decodes
+  #
+  def decode_context
+    data = parsed_request
+    
+    context = Base64.decode64(data.split('.')[1])
+  end
+  
+  #Searches Shopify for a customer based on the Desk context
+  #returns a shopify customer object
+  def search_shopify_customer(context)
+    customer_emails = context_customer_emails(context)
+    shopify_customer = nil
+  
+    customer_emails.each do |customer_email|
+      shopify_customer = ShopifyAPI::Customer.search(query: customer_email).first
+      break if shopify_customer
+    end
+  
+    return shopify_customer
+  end
+  
+  #returns an array of customer emails from the raw context
+  def context_customer_emails(context)
+    context = JSON.parse(context)
+    customer_emails = context['context']['environment']['customer']['emailAddresses']
+    customer_emails = customer_emails.map {|x| x["value"]}
+  end
+  
+  #Searches Shopify for a specific order by name or order_id
+  #Returns a single order object
+  def search_shopify_order(search)
+    count = ShopifyAPI::Order.count
+    pages = (count / 250) + 1
+    order = nil
+  
+    begin
+        orders = ShopifyAPI::Order.find(:all, params: {limit: 250, page: pages})
+        orders.each do |o|
+          if o.order_number.to_s == search.to_s
+            order = o
+          elsif o.name.to_s == search.to_s
+            order = o 
+          end
         end
-      end
-      pages -= 1
-      break if order
-  end while pages > 0
-
-  return order
-end
+        pages -= 1
+        break if order
+    end while pages > 0
+  
+    return order
+  end
