@@ -1,16 +1,26 @@
 .customer-content
   .customer-details
-    %span= customer.first_name
-    %span= customer.last_name
-
-    %h4 Customer Note
-    %p= customer.note
-  %h3 
-    Recent Orders
-    %a{:href => "#{@@shop_url + '/orders?customer_id=' + customer.id.to_s}"}
-      View All Orders
-  %hr
-  %ul
-    - orders = customer.orders.first(3)
-    - orders.each do |order|
-      = haml :order_line, :locals => {:order => order}
+    .customer-header.row
+      .col-md-12
+        %div.grav-wrap="<img src='' alt='' id='grav'>"
+        %h3.name= customer.first_name
+        -if customer.verified_email
+          %p.email= customer.email+" <i class='fa fa-check'></i>"
+        -else
+          %p.email= customer.email+" <i class='fa fa-close'></i>"
+        %h5.note Customer Note:
+        %p.note-text= customer.note
+    .row.stats
+      .col-xs-6
+        %p Lifetime Spent
+        %h4= "$"+customer.total_spent
+      .col-xs-6
+        %p Average Order
+        %h4.average
+  .recent-orders
+    %header
+      %h3 Recent orders
+    %ul
+      - orders = customer.orders.first(3)
+      - orders.each do |order|
+        = haml :order_line, :locals => {:order => order}
