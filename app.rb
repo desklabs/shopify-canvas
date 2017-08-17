@@ -3,8 +3,6 @@ require 'shopify_api'
 require 'openssl'
 require 'Base64'
 require 'json'
-if (process.env.NODE_ENV !== 'production') require('dotenv/load')
-
 
 @@shop_url = "https://#{ENV['SHOPIFY_API_KEY']}:#{ENV["SHOPIFY_API_SECRET"]}@#{ENV["SHOPIFY_HOST"]}.myshopify.com/admin"
 ShopifyAPI::Base.site = @@shop_url
