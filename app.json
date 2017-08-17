@@ -9,8 +9,8 @@
   "env": {
     "NODE_ENV": "production",
     "SHOPIFY_API_KEY": "",
-    "SHOPIFY_API_SECRET: "",
-    "SHOPIFY_HOST: "",
-    "CANVAS_KEY: ""
+    "SHOPIFY_API_SECRET": "",
+    "SHOPIFY_HOST": "",
+    "CANVAS_KEY": ""
   }
 }
