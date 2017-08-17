@@ -1,7 +1,7 @@
 require 'sinatra'
 require 'shopify_api'
 require 'openssl'
-require 'Base64'
+require 'base64'
 require 'json'
 
 @@shop_url = "https://#{ENV['SHOPIFY_API_KEY']}:#{ENV["SHOPIFY_API_SECRET"]}@#{ENV["SHOPIFY_HOST"]}.myshopify.com/admin"
