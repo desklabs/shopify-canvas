@@ -1,7 +1,7 @@
 # Desk.com Canvas: Shopify
 This a Shopify integration built for Desk.com using Canvas. Note that you will need to be on the Pro or Business Plus pricing plan for Desk.com to use Canvas.
 
-##I. Create a Private App in Shopify
+## I. Create a Private App in Shopify
 First create a private app in Shopify, which will provide the API keys needed to authorize the application.
 
 1. Navigate to private apps in the admin: https://your-shopify-domain.myshopify.com/admin/apps/private, replacing "your-shopify-domain" with your actual shopify domain.
@@ -12,12 +12,12 @@ First create a private app in Shopify, which will provide the API keys needed to
 
 4. Give "Read Access" to the following permissions:
 
-    -Store content like articles, blogs, comments, pages, and redirects 	
-    -Customer details and customer groups 	
-    -Draft orders 	
-    -Orders, transactions and fulfillments 	
-    -Product information 
-    -Products, variants and collections 
+    - Store content like articles, blogs, comments, pages, and redirects 	
+    - Customer details and customer groups 	
+    - Draft orders 	
+    - Orders, transactions and fulfillments 	
+    - Product information 
+    - Products, variants and collections 
 
 5. Click Save.
 
@@ -51,10 +51,10 @@ Now that we have all of the proper keys, we can install this application by depl
 
 During the setup, it will ask you to specify the Config Variables.
 
-  -SHOPIFY\_API\_KEY: The API Key from your private app in Shopify.
-  -SHOPIFY\_API\_SECRET: The **Password** from your private app in Shopify. Do not use the Shared Secret field. 
-  -SHOPIFY\_HOST: This is the custom domain for your shopify site. For example, if your site url is https://your-shopify-domain.myshopify.com, you would enter your-shopify-domain.
-  -CANVAS\_KEY: The shared key from your integration url above. 
+  - SHOPIFY\_API\_KEY: The API Key from your private app in Shopify.
+  - SHOPIFY\_API\_SECRET: The **Password** from your private app in Shopify. Do not use the Shared Secret field. 
+  - SHOPIFY\_HOST: This is the custom domain for your shopify site. For example, if your site url is https://your-shopify-domain.myshopify.com, you would enter your-shopify-domain.
+  - CANVAS\_KEY: The shared key from your integration url above. 
 
 ## IV. Update the Integration URL
 Now that you have the application on Heroku, go ahead and update the integration URL in Desk with your heroku app url.
