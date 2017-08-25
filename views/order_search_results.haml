@@ -29,15 +29,15 @@
         No customer found
   
   %div{:class => "order-content"}
-    %h2 Order Lookup
-    %form{ :action => "/order_search", :method => "post"}
-      %input{:type => "text", :name => "order_search", :class => "text"}
-      %input{:type => "submit", :value => "Send", :class => "button"}
-    
+    %h3 Order Lookup
+    %form{ :action => "/order_search", :method => "post", :class => "form-inline"}
+      .form-group
+        %input{:type => "text", :name => "order_search", :class => "form-control"}
+      %input{:type => "submit", :value => "Send", :class => "btn btn-primary btn-block"}
     .recent-orders
       - if order
         %ul
           = haml :order_line, :locals => {:order => order}
       - else
-        %p No orders found
+        %h4 No orders found
 
