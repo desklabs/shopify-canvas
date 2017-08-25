@@ -34,8 +34,10 @@
       %input{:type => "text", :name => "order_search", :class => "text"}
       %input{:type => "submit", :value => "Send", :class => "button"}
     
-    - if order
-      = haml :order_line, :locals => {:order => order}
-    - else
-      %p No orders found
+    .recent-orders
+      - if order
+        %ul
+          = haml :order_line, :locals => {:order => order}
+      - else
+        %p No orders found
 
