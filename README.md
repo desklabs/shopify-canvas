@@ -19,7 +19,7 @@ First create a private app in Shopify, which will provide the API keys needed to
     - Product information 
     - Products, variants and collections 
 
-5. Click Save.
+5. Click **Save**.
 
 6. You should see the API credentials. We'll use the "API Key" and "Password" in the next steps. 
 
@@ -74,7 +74,7 @@ Now display the canvas application on your Case Layout.
 
 3. **Drag** and **Drop** the application in your case layout.
 
-4. Scroll over the left side of the 'Shopify' bar and click on the gear to open the **Edit** window. Adjust the pixel **Height** to **200** and **Position**, the order in which it appears in Case Details on the dashboard. Click **Save**.
+4. Scroll over the left side of the 'Shopify' bar and click on the gear to open the **Edit** window. Adjust the pixel **Height** to **900** and **Position**, the order in which it appears in Case Details on the dashboard. Click **Save**.
 
 ## VI. Dashboard Confirmation
 After you have added the canvas application to your layout and selected users, open a ticket and you should see the Shopify section under **Case Details**.
