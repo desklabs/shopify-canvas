@@ -3,6 +3,8 @@ require 'shopify_api'
 require 'openssl'
 require 'base64'
 require 'json'
+require 'sass'
+require 'sass/plugin/rack'
 
 @@shop_url = "https://#{ENV['SHOPIFY_API_KEY']}:#{ENV["SHOPIFY_API_SECRET"]}@#{ENV["SHOPIFY_HOST"]}.myshopify.com/admin"
 ShopifyAPI::Base.site = @@shop_url
@@ -16,6 +18,12 @@ puts "----"
 
 set :protection, :except => :frame_options
 enable :sessions
+
+#####        #####
+###  Front End ###
+#####        #####
+use Sass::Plugin::Rack
+set :public_folder, 'public'
 
 #####        #####
 ###   Routes   ###
