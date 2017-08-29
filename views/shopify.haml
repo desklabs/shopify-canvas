@@ -6,9 +6,11 @@
     %link{:rel => :stylesheet, :type => :"text/css", :href => "//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"}
     %script{:src => "//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"}
     %script{:src => "/scripts/main.js"}
-    :css
-
   %body
-    %header{:class => "top"}
-      %div{:class => "title-block"}
+    = haml :header, :locals => {:customer => customer}
     =yield
+
+    -if customer
+      %div#customerEmail.hidden= customer.email
+      %div#spent.hidden= customer.total_spent
+      %div#count.hidden= customer.orders_count

@@ -1,0 +1,19 @@
+%header{:class => "top"}
+  %div{:class => "title-block"}
+    %img(src="images/logo.svg" alt="")
+-if customer
+  %ul{:class => "main Polaris-Tabs Polaris-Tabs--fitted"}
+    %li{:class => "customer Polaris-Tabs__TabContainer"}
+      %button{:class => "Polaris-Tabs__Tab Polaris-Tabs__Tab--selected", :id=> "customer"}
+        %span{:class => "Polaris-Tabs__Title"}
+          Customer
+    %li{:class => "order Polaris-Tabs__TabContainer"}
+      %button{:class => "Polaris-Tabs__Tab ", :id=> "order"}
+        %span{:class => "Polaris-Tabs__Title"}
+          Order Lookup
+-else
+  %ul{:class => "Polaris-Tabs Polaris-Tabs--fitted fake"}
+    %li{:class => "order Polaris-Tabs__TabContainer"}
+      %button{:class => "Polaris-Tabs__Tab Polaris-Tabs__Tab--selected", :id=> "order"}
+        %span{:class => "Polaris-Tabs__Title"}
+          Order Lookup

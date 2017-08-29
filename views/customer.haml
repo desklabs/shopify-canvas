@@ -1,41 +1,10 @@
-%nav{:class => "main"}
-  -if customer 
-    %div{:class =>"tab-switch active", :id=> "customer"}
-      %span Customer
-    %div{:class =>"tab-switch", :id=> "order"}
-      %span Order Lookup
-  -else
-    %div{:class =>"tab-switch", :id=> "customer"}
-      %span Customer
-    %div{:class =>"tab-switch active", :id=> "order"}
-      %span Order Lookup
-%div{:class=>"content container"}
-  -if customer
-    :javascript
-      $(document).ready(function(){
-        var totalSpent = "#{customer.total_spent}",
-        orderCount = "#{customer.orders_count}",
-        averageOrder = (totalSpent/orderCount);
-        $('.average').text('$'+averageOrder);
-          var email = "#{customer.email}"
-          $('#grav').attr('src', 'http://www.gravatar.com/avatar/' + md5(email));
-      });
-    :css
-      .order-content {display: none}
-  
-    .customer-content
-      = haml :customer_content, :locals => {:customer => customer}
-  -else
-    :css
-      .customer-content {display: none}
-  
-    %div{:class => "customer-content"}
-      %h2
-        No customer found
-  
-  %div{:class => "order-content"}
-    %h3 Order Lookup
-    %form{ :action => "/order_search", :method => "post", :class => "form-inline"}
-      .form-group
-        %input{:type => "text", :name => "order_search", :class => "form-control"}
-      %input{:type => "submit", :value => "Send", :class => "btn btn-primary btn-block"}
+-if customer
+  %div#currentView.hidden="cusotmer"
+  %div#cusotmerContent
+    = haml :customer_content, :locals => {:customer => customer}
+  %div{:style => "display:none;", :id => "orderSearch"}
+    = haml :search
+-else
+  %div#currentView.hidden="search"
+  %div#orderSearch
+    = haml :search

@@ -1,17 +1,26 @@
-%li.order_line
-  .order-info
-    %a{:href => "#{@@shop_url + '/orders/' + order.id.to_s}"}
-      %span.pull-left.label.label-info= "Order "+ order.name
-      -if order.fulfillment_status
-        %span.pull-right.label.label-success= "Fulfilled"
-      -else
-        %span.pull-right.label.label-warning= "Unfulfilled"
-
+%div.Polaris-Card
+  %div.Polaris-Card__Header
+    %div.Polaris-Stack.Polaris-Stack--distributionFillEvenly.Polaris-Stack--alignmentCenter
+      %div.Polaris-Stack__Item
+        %h2.Polaris-Heading= "Order "+ order.name
+      %div.Polaris-Stack__Item
+        -if order.fulfillment_status
+          %span.Polaris-Badge.Polaris-Badge--statusSuccess.float-right= "Fulfilled"
+        -else
+          %span.Polaris-Badge.Polaris-Badge--statusWarning.float-right= "Unfulfilled"
   - order.line_items.each do |item|
-    .item
-      %h5= item.title
-      %span= "Quantity: "+ item.quantity.to_s
-      %span= "Price: $" +item.price.to_s
-  %h4.total
-    %a{:href => "#{@@shop_url + '/orders/' + order.id.to_s}"}
-      ="$" + order.total_price.to_s
+    .Polaris-Card__Section
+      .Polaris-Card__SectionHeader
+        %h3.Polaris-Subheading= item.title
+      %div.Polaris-Stack.Polaris-Stack--distributionFillEvenly
+        %div.Polaris-Stack__Item
+          %span="Quantity: "+ item.quantity.to_s
+        %div.Polaris-Stack__Item
+          %span.float-right="Price: $" +item.price.to_s
+  .Polaris-Card__Section
+    %div.Polaris-Stack.Polaris-Stack--distributionFillEvenly
+      %div.Polaris-Stack__Item
+        %h3.Polaris-Subheading="Order Total:"
+      %div.Polaris-Stack__Item
+        %a{:class => "float-right", :href => "#{@@shop_url + '/orders/' + order.id.to_s}", :target => "_blank"}
+          ="$" + order.total_price.to_s
