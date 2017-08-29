@@ -13,21 +13,6 @@
     .Polaris-Card__Section
       %h3.Polaris-Subheading Customer Note:
       %p.note-text= customer.note
-  - address = customer.default_address
-  -if address.id
-    .Polaris-Card__Section
-      -if address.city.empty?
-        -if address.address1.empty?
-          %p.note-text= address.province+", "+address.country_code
-        -else
-          %p.note-text= address.address1
-          %p.note-text= address.province+", "+address.country_code
-      -else
-        -if address.address1.empty?
-          %p.note-text= address.city+", "+address.country_code
-        -else
-          %p.note-text= address.address1
-          %p.note-text= address.city+", "+address.country_code
   .Polaris-Card__Section.stats
     .Polaris-Stack.Polaris-Stack--alignmentCenter.Polaris-Stack--distributionFillEvenly
       .Polaris-Stack__Item
