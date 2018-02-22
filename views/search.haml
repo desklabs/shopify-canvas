@@ -1,0 +1,9 @@
+%form{ :action => "/order_search", :method => "post", :id=>"search-from"}
+  .Polaris-Labelled__LabelWrapper
+    .Polaris-Label
+      %label#TextField1Label.Polaris-Label__Text{:for => "TextField1"} Order Lookup
+  .Polaris-TextField
+    %input#TextField1.Polaris-TextField__Input{"aria-describedby" => "TextField1HelpText", "aria-invalid" => "false", "aria-labelledby" => "TextField1Label", :type => "text", :name => "order_search", :autocomplete => "false"}/
+    %input{:type => "submit", :value => "Send", :class => "Polaris-Button Polaris-Button--fullWidth Polaris-Button--primary hidden"}
+    .Polaris-TextField__Backdrop
+  #TextField1HelpText.Polaris-Labelled__HelpText Look up orders by order number

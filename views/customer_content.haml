@@ -1,26 +1,32 @@
-.customer-content
-  .customer-details
-    .customer-header.row
-      .col-md-12
-        %div.grav-wrap="<img src='' alt='' id='grav'>"
-        %h3.name= customer.first_name
+.Polaris-Card.customer
+  .Polaris-Card__Header
+    .Polaris-Stack.Polaris-Stack--alignmentCenter
+      .Polaris-Stack__Item
+        %img.Polaris-Avatar.Polaris-Avatar--styleFive.Polaris-Avatar--sizeLarge#grav
+      .Polaris-Stack__Item
+        %p.Polaris-DisplayText.Polaris-DisplayText--sizeLarge.left= customer.first_name+" "+customer.last_name
         -if customer.verified_email
           %p.email= customer.email+" <i class='fa fa-check'></i>"
         -else
           %p.email= customer.email+" <i class='fa fa-close'></i>"
-        %h5.note Customer Note:
-        %p.note-text= customer.note
-    .row.stats
-      .col-xs-6
-        %p Lifetime Spent
-        %h4= "$"+customer.total_spent
-      .col-xs-6
-        %p Average Order
-        %h4.average
-  .recent-orders
-    %header
-      %h3 Recent orders
-    %ul
-      - orders = customer.orders.first(3)
-      - orders.each do |order|
-        = haml :order_line, :locals => {:order => order}
+  -if customer.note
+    .Polaris-Card__Section
+      %h3.Polaris-Subheading Customer Note:
+      %p.note-text= customer.note
+  .Polaris-Card__Section.stats
+    .Polaris-Stack.Polaris-Stack--alignmentCenter.Polaris-Stack--distributionFillEvenly
+      .Polaris-Stack__Item
+        %p.center Lifetime Spent
+        %p.center.Polaris-DisplayText.Polaris-DisplayText--sizeMedium= "$"+customer.total_spent
+      .Polaris-Stack__Item
+        %p.center Average Order
+        %p.center.Polaris-DisplayText.Polaris-DisplayText--sizeMedium.average
+      .hidden
+        %div#count= customer.orders_count
+        %div#spent= customer.total_spent
+%header
+  %h2.Polaris-Heading
+    Recent orders
+- orders = customer.orders.first(3)
+- orders.each do |order|
+  = haml :order_line, :locals => {:order => order}

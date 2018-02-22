@@ -1,42 +1,11 @@
-%nav{:class => "main"}
-  
-  %div{:class =>"tab-switch", :id=> "customer"}
-    %span Customer
-  %div{:class =>"tab-switch active", :id=> "order"}
-    %span Order Lookup
-%div{:class=>"content container"}
-  :css 
-    .customer-content {display: none}
-  
-  -if customer
-    :javascript
-      $(document).ready(function(){
-        var totalSpent = "#{customer.total_spent}",
-        orderCount = "#{customer.orders_count}",
-        averageOrder = (totalSpent/orderCount);
-        $('.average').text('$'+averageOrder);
-          var email = "#{customer.email}"
-          $('#grav').attr('src', 'http://www.gravatar.com/avatar/' + md5(email));
-      });
-  
-    .customer-content
-      = haml :customer_content, :locals => {:customer => customer}
-  -else
-  
-    %div{:class => "customer-content"}
-      %h2
-        No customer found
-  
-  %div{:class => "order-content"}
-    %h3 Order Lookup
-    %form{ :action => "/order_search", :method => "post", :class => "form-inline"}
-      .form-group
-        %input{:type => "text", :name => "order_search", :class => "form-control"}
-      %input{:type => "submit", :value => "Send", :class => "btn btn-primary btn-block"}
-    .recent-orders
-      - if order
-        %ul
-          = haml :order_line, :locals => {:order => order}
-      - else
-        %h4 No orders found
-
+%div#currentView.hidden="search"
+-if customer
+  %div#cusotmerContent
+    = haml :customer_content, :locals => {:customer => customer}
+%div{:id => "orderSearch"}
+  - if order
+    = haml :order_line, :locals => {:order => order}
+    = haml :search
+  - else
+    %p.Polaris-DisplayText.Polaris-DisplayText--sizeLarge.center No orders found
+    = haml :search
